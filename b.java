@@ -3,7 +3,7 @@ import java.io.*;import java.lang.*;import java.util.*;
 //* --> String concatenation using the + operator within a loop should be avoided. Since the String object is immutable, each call for concatenation will
 // result in a new String object being created.
 // THE SIEVE USED HERE WILL RETURN A LIST CONTAINING ALL THE PRIME NUMBERS TILL N
- public class a {static FastScanner sc;static PrintWriter pw;static class FastScanner {InputStreamReader is;BufferedReader br;StringTokenizer st;
+ public class b {static FastScanner sc;static PrintWriter pw;static class FastScanner {InputStreamReader is;BufferedReader br;StringTokenizer st;
 public FastScanner() {is = new InputStreamReader(System.in);br = new BufferedReader(is);}
 String next() throws Exception {while (st == null || !st.hasMoreElements())st = new StringTokenizer(br.readLine());
 return st.nextToken();}int nextInt() throws Exception {return Integer.parseInt(next());}long nextLong() throws Exception {
@@ -85,29 +85,77 @@ size[a]++;}}public static int find(int v)
 {if(v==par[v]){return v;}return par[v]=find(par[v]);}
 
                 // ------------- DSU ---------------\                    
-                        
+              static class pair{
+                  int h;
+                  int v;
+                  pair(int h,int v)
+                  {
+                      this.h=h;
+                      this.v=v;
+                  }
+              }          
 public static void main(String args[]) throws java.lang.Exception {
 sc = new FastScanner();pw = new PrintWriter(System.out);StringBuilder s = new StringBuilder();
 int t=sc.nextInt();
 while(t-->0)
 {
- int l1=sc.nextInt();       
- int r1=sc.nextInt();
- int l2=sc.nextInt();
- int r2=sc.nextInt();
-if(l2<=r1&&l2>=l1)
+ int n=sc.nextInt();
+ int m=sc.nextInt();
+ char ar[][]=new char[n][];
+for(int i=0;i<n;i++)
 {
-s.append(l2);
+    ar[i]=sc.next().toCharArray();
 }
-else if(l1<=r2&&l1>=l2)
+ List<pair> list=new ArrayList<>();
+for(int i=0;i<n;i++)
 {
-s.append(l1);
+    for(int j=0;j<m;j++)
+    {
+        if(ar[i][j]=='R')
+        {
+        int x[]=find(ar,i,j);
+        list.add(new pair(x[0],x[1]));
+        }
+    }
 }
-else{
-    s.append(l1+l2);
+int f=0;
+Collections.sort(list,(a,b)->(a.v+a.h-b.v+b.h));
+for(int i=1;i<list.size();i++)
+{
+    pair p=list.get(i);
+   // System.out.println(p.h+" "+p.v);
+    if(p.h<list.get(0).h||p.v<list.get(0).v)
+    {
+     f=1;
+     s.append("NO");
+     break;
+    }
+}
+if(f==0)
+{
+s.append("YES");
 }
 if(t>0)
 {
     s.append("\n");
 }}
-pw.print(s);pw.close();}}
+pw.print(s);pw.close();}
+static int[] find(char ar[][],int i,int j)
+{
+    int v=0;
+    int h=0;
+    int x=1;
+    int y=1;
+    while(i-x>=0)
+    {
+    h++;
+    x++;
+    }
+    while(j-y>=0)
+    {
+    v++;
+    y++;
+    }
+    return new int[]{h,v};
+}
+}
